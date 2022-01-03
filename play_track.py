@@ -24,8 +24,6 @@ def play_track(access_token, track_id):
     r = requests.put('https://api.spotify.com/v1/me/player/play',
                      headers={'Authorization': 'Bearer ' + access_token},
                      data=json.dumps({'uris': ['spotify:track:{}'.format(track_id)]}))
-    print('spotify:track:{}'.format(track_id))
-    print(r.text)
 
 if __name__ == '__main__':
     secrets = load_secrets()
