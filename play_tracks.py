@@ -20,12 +20,16 @@ def fetch_access_token(client_id, client_secret, refresh_token):
                       })
     return r.json()['access_token']
 
-def play_track(access_token, track_id):
+def play_track(access_token, track_ids):
+    print(track_ids)
+    print(json.dumps({'uris': ['spotify:track:{}'.format(track_id) for track_id in track_ids]}))
     r = requests.put('https://api.spotify.com/v1/me/player/play',
                      headers={'Authorization': 'Bearer ' + access_token},
-                     data=json.dumps({'uris': ['spotify:track:{}'.format(track_id)]}))
+                     data=json.dumps({'uris': ['spotify:track:{}'.format(track_id) for track_id in track_ids]}))
 
 if __name__ == '__main__':
+    print(sys.argv)
+    print(sys.argv[1:])
     secrets = load_secrets()
     access_token = fetch_access_token(secrets['client_id'], secrets['client_secret'], secrets['refresh_token'])
-    play_track(access_token, sys.argv[1])
+    play_track(access_token, sys.argv[1:])
